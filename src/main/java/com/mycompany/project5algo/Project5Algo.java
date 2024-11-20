@@ -1,32 +1,38 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package com.mycompany.project5algo;
 import java.util.*;
 
 /**
+ * This class is the main file.
  *
- * @author User
+ * @author Roni Ebenezer, Jonique Chan
+ * @version 1.0
+ * File: Project5Algo.java
+ * Created: Nov 2024
+ * ©Copyright Cedarville University, its Computer Science faculty, 
+ * and the authors. All rights reserved.
+ *
+ * Description: This class is the main file that reads the input in, creates the initial highway state, finds the shortest path
+ * between two pairs, sorts and prints the result. 
  */
+
 public class Project5Algo {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("input: ");
         int inf = Integer.MAX_VALUE;
-        // change this when using gradle!
         int cases = sc.nextInt();
         sc.nextLine();
         sc.nextLine();
         int intersections, roads, cities;
+
         for (int i = 0; i < cases; i++) {
             intersections = sc.nextInt();
             roads = sc.nextInt();
             cities = sc.nextInt();
 
-            // initialize distance matrix for edges/roads <- everything is inf
+            // initialize distance matrix for edges/roads
             double[][] dist = new double[intersections][intersections];
             for (int j = 0; j < intersections; j++) {
+                // everything is initilally infinity
                 Arrays.fill(dist[j], inf);
                 dist[j][j] = 0; // distance to self
             }
@@ -39,7 +45,7 @@ public class Project5Algo {
                 dist[col][row] = distance;
             }
 
-            // initialize cities (key-value)
+            // initialize map for cities
             Map<Integer, String> citiesMap = new HashMap<>();
             for (int j = 0; j < cities; j++) {
                 int node = sc.nextInt();
@@ -47,7 +53,7 @@ public class Project5Algo {
                 citiesMap.put(node, name);
             }
 
-            // initialize signs
+            // initialize a list of sign objects
             int numSigns = sc.nextInt();
             List<Sign> signs = new ArrayList<>();
             for (int j = 0; j < numSigns; j++) {
@@ -57,7 +63,7 @@ public class Project5Algo {
                 signs.add(new Sign(from, to, d));
             }
 
-            // floyd - find shortest path 
+            // floyd's algorithm to find the shortest path between each pair of nodes 
             for (int k = 0; k < intersections; k++) {
                 for (int j = 0; j < intersections; j++) {
                     for (int m = 0; m < intersections; m++) {
@@ -68,16 +74,6 @@ public class Project5Algo {
                     }
                 }
             }
-            
-            /*
-            // print 2d array - for debugging
-            for (int j = 0; j < dist.length; j++) { 
-                for (int k = 0; k < dist[j].length; k++) { 
-                    System.out.print(dist[j][k] + " "); 
-                } 
-                System.out.println(); 
-            }
-                */
             
             // go through each sign and check if shortest path goes through each node
             int index = 1;
